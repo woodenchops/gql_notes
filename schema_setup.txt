@@ -1,0 +1,88 @@
+
+The schema is where you set up your queries and mutations.
+Below, we create a BookType query that returns id, name, genre and author.
+The author makes use of the AuthorType query. This is an example of query relations.
+The AuthorType query also makes use of the BookType query.
+
+/*
+
+-- SCHEMA SETUP --
+   (schema.js)
+
+const graphql = require('graphql');
+const Book = require('../models/book');
+const Author = require('../models/author');
+const _ = require('lodash');
+
+const {
+    GraphQLObjectType,
+    GraphQLString,
+    GraphQLSchema,
+    GraphQLID,
+    GraphQLInt,
+    GraphQLList,
+    GraphQLNonNull
+} = graphql;
+
+const BookType = new GraphQLObjectType({
+    name: 'Book',
+    fields: ( ) => ({
+        id: { type: GraphQLID },
+        name: { type: GraphQLString },
+        genre: { type: GraphQLString },
+        author: {
+            type: AuthorType,
+            resolve(parent, args){
+                return Author.findById(parent.authorId);
+            }
+        }
+    })
+});
+
+const AuthorType = new GraphQLObjectType({
+    name: 'Author',
+    fields: ( ) => ({
+        id: { type: GraphQLID },
+        name: { type: GraphQLString },
+        age: { type: GraphQLInt },
+        books: {
+            type: new GraphQLList(BookType),
+            resolve(parent, args){
+                return Book.find({ authorId: parent.id });
+            }
+        }
+    })
+});
+
+*/
+
+Also, within the schema file, we create our RootQuery.
+This RootQuery contains all the different queries, and combines them - similar to the CombineAllReducers in Redux
+The RootQuery contains a name and field property. The name property can be anything you want.
+The fields property is where you store all the different queries - e.g you can query one single book OR all books.
+Inside the fields object, we create a 'book' query. Whatever you name the query in the fields object is what you use when making the query.
+So, when making a query, you'd do something like this:
+
+/*
+
+-- MAKING A QUERY FOR A SINGLE BOOK --
+
+{
+  book(id: "6") {
+    name
+    genre
+  }
+}
+
+*/
+
+/*
+
+-- MAKING A QUERY FOR ALL BOOKS --
+
+{
+  book {
+    name
+    genre
+  }
+}

@@ -1,0 +1,25 @@
+GraphQL is a query language
+
+When setting up your nodwe server, you need to clarify that you're using GQL.
+You also need to set up the 'schema', which is what you pass to graphqlHTTP.
+The schema file is where you write the code for how gql should behave.
+
+
+
+/*
+
+ -- EXPRESS SETUP --
+
+const express = require('express');
+const graphqlHTTP = require('express-graphql');
+const schema = require('./schema/schema');
+const mongoose = require('mongoose');
+const cors = require('cors');
+
+
+app.use('/graphql', graphqlHTTP({
+    schema,
+    graphiql: true
+}));
+
+*/

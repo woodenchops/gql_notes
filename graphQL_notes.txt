@@ -1,0 +1,4 @@
+step 1 - server_setup
+step 2 - schema_setup
+step 3 - query_setup
+

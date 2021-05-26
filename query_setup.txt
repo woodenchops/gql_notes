@@ -1,0 +1,63 @@
+*/
+
+Inside each query is a 'resolve' function.
+This is probably the most important function, as it figures out what to do with the query data you've provided.
+e.g an ID arguement to find a single book.
+
+In the below example, we use mongoose to talk to our Mongo database to find a book by a specific ID
+
+At the end of the file, you want to then export your RootQuery. See below.
+
+/*
+
+  book: {
+      type: BookType,
+      args: { id: { type: GraphQLID } },
+      resolve(parent, args){
+          return Book.findById(args.id);
+      }
+  }
+
+*/
+
+/*
+
+ -- ROOTQUERY SETUP --
+
+ const RootQuery = new GraphQLObjectType({
+    name: 'RootQueryType',
+    fields: {
+        book: {
+            type: BookType,
+            args: { id: { type: GraphQLID } },
+            resolve(parent, args){
+                return Book.findById(args.id);
+            }
+        },
+        author: {
+            type: AuthorType,
+            args: { id: { type: GraphQLID } },
+            resolve(parent, args){
+                return Author.findById(args.id);
+            }
+        },
+        books: {
+            type: new GraphQLList(BookType),
+            resolve(parent, args){
+                return Book.find({});
+            }
+        },
+        authors: {
+            type: new GraphQLList(AuthorType),
+            resolve(parent, args){
+                return Author.find({});
+            }
+        }
+    }
+});
+
+module.exports = new GraphQLSchema({
+    query: RootQuery
+});
+
+*/
